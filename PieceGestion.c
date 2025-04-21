@@ -72,11 +72,26 @@ void AfficheMatrice(char piece[TAILLE_PIECE][TAILLE_PIECE]){
     }
 }
 
-void Rotation90(char piece[TAILLE_PIECE][TAILLE_PIECE], char piece_rota[TAILLE_PIECE][TAILLE_PIECE]){
-    for(int i=0;i<TAILLE_PIECE;i++){
-        for(int j=0;j<TAILLE_PIECE;j++){
-            piece_rota[i][j] = piece[TAILLE_PIECE-1-j][i];
+void Rotation90(char piece[TAILLE_PIECE][TAILLE_PIECE],char piece_rota[TAILLE_PIECE][TAILLE_PIECE], int n){
+    if(n==0){
+        for(int i=0;i<TAILLE_PIECE;i++){
+            for(int j=0;j<TAILLE_PIECE;j++){
+                piece_rota[i][j] = piece[i][j];
+            }
         }
+    }
+    else if(n<0 || n>3){
+        printf("Erreur dans la saisie de l'entier dans la fonction Rotation90\n");
+        exit(1);
+    }
+    else{
+        char tab[TAILLE_PIECE][TAILLE_PIECE];
+        for(int i=0;i<TAILLE_PIECE;i++){
+            for(int j=0;j<TAILLE_PIECE;j++){
+                tab[i][j] = piece[TAILLE_PIECE-1-j][i];
+            }
+        }
+        Rotation90(tab,piece_rota,n-1);
     }
 }
 
@@ -97,7 +112,8 @@ int main() {
     fclose(f);
     AfficheMatrice(pieces[1]);
     char rotation[5][5];
-    Rotation90(pieces[1],rotation);
+    Rotation90(pieces[1],rotation,2);
+    printf("\n");
     AfficheMatrice(rotation);
     return 0;
 }
