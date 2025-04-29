@@ -44,7 +44,13 @@ void GrilleDepart(char tab[LIGNE][COLONNE], int l, int c) {
 }
 
 
-void ChargementPiece(FILE* f, char liste_matrice[NB_PIECE][TAILLE_PIECE][TAILLE_PIECE]) {
+void ChargementPiece(char liste_matrice[NB_PIECE][TAILLE_PIECE][TAILLE_PIECE]) {
+    FILE* fichier = fopen("piece.txt", "r");
+    if (fichier == NULL) {
+        printf("Erreur ouverture fichier\n");
+        printf("Erreur %d : %s\n", errno, strerror(errno));
+        return 1;
+    }
     char c;
     for(int m = 0; m < NB_PIECE; m++) {
         for(int i = 0; i < TAILLE_PIECE; i++) {
@@ -62,6 +68,7 @@ void ChargementPiece(FILE* f, char liste_matrice[NB_PIECE][TAILLE_PIECE][TAILLE_
             }
         }
     }
+    fclose(fichier);
 }
 
 void AfficheMatrice(char piece[TAILLE_PIECE][TAILLE_PIECE],int longueur,int hauteur){
@@ -239,15 +246,9 @@ int main() {
     GrilleDepart(grille,LIGNE,COLONNE);
 
     // Chargement des pièces
-    FILE* fichier = fopen("piece.txt", "r");
-    if (fichier == NULL) {
-        printf("Erreur ouverture fichier\n");
-        printf("Erreur %d : %s\n", errno, strerror(errno));
-        return 1;
-    }
     char pieces[NB_PIECE][TAILLE_PIECE][TAILLE_PIECE];
-    ChargementPiece(fichier, pieces);
-    fclose(fichier);
+    ChargementPiece(pieces);
+
 
     int jeu_en_cours = 1;
     while (jeu_en_cours) {
