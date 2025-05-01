@@ -222,7 +222,7 @@ void PoserPiece(char grille[LIGNE][COLONNE], char** piece,int longueur, int haut
     }
 
     if (!trouve) {
-        ligne_depart--; // revenir d'un cran parce que on touche l'autre
+        ligne_depart--; 
     } 
 
     // Pose réelle de la pièce
