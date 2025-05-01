@@ -55,7 +55,7 @@ void ChargementPiece(char liste_matrice[NB_PIECE][TAILLE_PIECE][TAILLE_PIECE]) {
     for(int m = 0; m < NB_PIECE; m++) {
         for(int i = 0; i < TAILLE_PIECE; i++) {
             do{
-                c = fgetc(f);
+                c = fgetc(fichier);
             }while(c != '@' && c != '.');
             for(int j = 0; j < TAILLE_PIECE; j++) {
                 if(c == '.'){
@@ -64,7 +64,7 @@ void ChargementPiece(char liste_matrice[NB_PIECE][TAILLE_PIECE][TAILLE_PIECE]) {
                 else{
                     liste_matrice[m][i][j] = c; 
                 }
-                c = fgetc(f);
+                c = fgetc(fichier);
             }
         }
     }
