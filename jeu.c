@@ -238,6 +238,37 @@ void PoserPiece(char grille[LIGNE][COLONNE], char** piece,int longueur, int haut
     }
 }
 
+void DecalerLigneVersBas(char grille[LIGNE][COLONNE], int ligne) {
+    for (int l = ligne; l > 0; l--) {
+        for (int c = 0; c < COLONNE; c++) {
+            grille[l][c] = grille[l-1][c];
+        }
+    }
+    
+    for (int c = 0; c < COLONNE; c++) {
+        if (c % 2 == 0)
+            grille[0][c] = '|';
+        else
+            grille[0][c] = ' ';
+    }
+}
+
+void SupprimerLignesPleines(char grille[LIGNE][COLONNE]) {
+    for (int i = 0; i < LIGNE; i++) {
+        int pleine = 1;
+        for (int j = 1; j < COLONNE; j += 2) {  
+            if (grille[i][j] == ' ') { 
+                pleine = 0;
+                break;  
+            }
+        }
+        if (pleine) {
+            DecalerLigneVersBas(grille, i);
+            i--;  
+        }
+    }
+}
+
 int main() {
     srand(time(NULL)); // Pour le hasard
 
@@ -301,6 +332,7 @@ int main() {
                 reussite_pose = 1; // On sort de la boucle
             }
         }
+        SupprimerLignesPleines(grille);
         free(piece_joue);
 
 
