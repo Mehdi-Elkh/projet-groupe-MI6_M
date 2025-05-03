@@ -23,20 +23,59 @@ void Enregistrement_Score(Joueur joueur){
         fclose(fichier);
 }
 
+int Nombre_Joueur(){
+    FILE* fichier = NULL;
+    fichier = fopen("score.txt","r");
+    if(fichier == NULL){
+        printf("Erreur dans l'ouverture du fichier score.txt");
+        exit(1);
+    }
+    char c = ' ';
+    int cpt = 0;
+    while(c != EOF){
+        c = fgetc(fichier);
+        if(c == '\n'){
+            cpt++;
+        }
+    }
+    if(ftell(fichier) == 0){
+        cpt = 0;
+    }
+    else{
+        cpt++;
+    }
+    fclose(fichier);
+    return cpt;
+}
+
+
+Joueur* Chargement_Score(){
+    Joueur* liste_joueur = NULL;
+    int n = 0;
+    n = Nombre_Joueur();
+    FILE* fichier = NULL;
+    fichier = fopen("score.txt","r");
+    if(fichier == NULL){
+        printf("Erreur dans l'ouverture du fichier score.txt");
+        exit(1);
+    }
+    liste_joueur = malloc(n * sizeof(Joueur));
+    if(liste_joueur == NULL){
+        printf("L'allocation memoire de liste_joueur à echouer ligne 61");
+        exit(1);
+    }
+    for(int i=0;i<n;i++){
+        fscanf(fichier,"%s %d",liste_joueur[i].nom,&liste_joueur->score);
+    }
+    return liste_joueur;
+}
+
 int main()
 {
-    Joueur j1,j2;
-    Joueur tab[2];
-    tab[0] = j1;
-    tab[1] = j2;
-    for(int i=0;i<2;i++){
-        printf("Nom : ");
-        scanf("%s",tab[i].nom);
-        printf("Score : ");
-        scanf("%d",&tab[i].score);
-        printf("\n");
+    Joueur* tab = NULL;
+    tab = Chargement_Score(tab);
+    for(int i=0;i<3;i++){
+        printf("%s %d\n",tab[i].nom,tab[i].score);
     }
-    Enregistrement_Score(tab[0]);
-    Enregistrement_Score(tab[1]);
     return 0;
 }
