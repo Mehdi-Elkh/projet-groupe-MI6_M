@@ -49,7 +49,7 @@ int Nombre_Joueur(){
 }
 
 
-Joueur* Chargement_Score(){
+Joueur* Chargement_Score(int* taille){
     Joueur* liste_joueur = NULL;
     int n = 0;
     n = Nombre_Joueur();
@@ -65,17 +65,104 @@ Joueur* Chargement_Score(){
         exit(1);
     }
     for(int i=0;i<n;i++){
-        fscanf(fichier,"%s %d",liste_joueur[i].nom,&liste_joueur->score);
+        fscanf(fichier,"%s %d",liste_joueur[i].nom,&liste_joueur[i].score);
     }
+    *taille = n;
     return liste_joueur;
+}
+
+int partition(Joueur* liste_joueur,int debut,int fin){
+    int inf,sup;
+    Joueur tmp;
+    inf = debut+1;
+    sup = fin;
+    while(inf<=sup){
+        while(liste_joueur[sup].score>liste_joueur[debut].score){
+            sup--;
+        }
+        while(liste_joueur[inf].score<liste_joueur[debut].score){
+            inf++;
+        }
+        if(inf<sup){
+            tmp = liste_joueur[sup];
+            liste_joueur[sup] = liste_joueur[inf];
+            liste_joueur[inf] = tmp;
+        }
+    }
+    tmp = liste_joueur[debut];
+    liste_joueur[debut] = liste_joueur[sup];
+    liste_joueur[sup] = tmp;
+    return sup;
+}
+
+void triRapide(Joueur* liste_joueur,int taille){
+    triRapideRec(liste_joueur,0,taille-1);
+}
+
+void triRapideRec(Joueur* liste_joueur, int debut, int fin){
+    int pivot;
+    if(debut < fin){
+        pivot = partition(liste_joueur,debut,fin);
+        triRapideRec(liste_joueur,debut,pivot-1);
+        triRapideRec(liste_joueur,pivot+1,fin);
+    }
+}
+
+void Croissant_a_Decroissant(Joueur* liste_joueur,int taille){
+    Joueur* tab = NULL;
+    tab = malloc(taille * sizeof(Joueur));
+    if(tab == NULL){
+        printf("Erreur de l'allocation memoire tab ligne 113");
+        exit(1);
+    }
+    for(int i=0;i<taille;i++){
+        tab[i] = liste_joueur[i];
+    }
+    for(int i=0;i<taille;i++){
+        liste_joueur[i] = tab[taille-1-i];
+    }
+    free(tab);
+}
+
+void Afficher_Top5(Joueur* liste_joueur,int taille){
+    if(taille<5){
+        printf("TOP 5\n\n");
+        for(int i=0;i<taille;i++){
+            printf("%d- %s %d\n",i,liste_joueur[i].nom,liste_joueur[i].score);
+        }
+        printf("\n");
+    }
+    else{
+        printf("TOP 5\n\n");
+        for(int i=0;i<5;i++){
+            printf("%d- %s %d\n",i+1,liste_joueur[i].nom,liste_joueur[i].score);
+        }
+        printf("\n");
+    }
 }
 
 int main()
 {
     Joueur* tab = NULL;
-    tab = Chargement_Score(tab);
-    for(int i=0;i<3;i++){
+    int n;
+    tab = Chargement_Score(&n);
+    printf("%d\n",n);
+    for(int i=0;i<n;i++){
         printf("%s %d\n",tab[i].nom,tab[i].score);
     }
+    printf("\nTableau après tri : \n\n");
+    triRapide(tab,n);
+    for(int i=0;i<n;i++){
+        printf("%s %d\n",tab[i].nom,tab[i].score);
+    }
+    Croissant_a_Decroissant(tab,n);
+    printf("\nTableau après Decroissant : \n\n");
+    for(int i=0;i<n;i++){
+        printf("%s %d\n",tab[i].nom,tab[i].score);
+    }
+    printf("\n\n");
+    Afficher_Top5(tab,n);
+    free(tab);
     return 0;
 }
+  
