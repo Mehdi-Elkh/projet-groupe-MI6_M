@@ -1,10 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-typedef struct{
-    char nom[21];
-    int score;
-}Joueur;
+#include "fonction.h"
 
 void Enregistrement_Score(Joueur joueur){
         FILE* fichier = NULL;
@@ -141,6 +135,7 @@ void Afficher_Top5(Joueur* liste_joueur,int taille){
     }
 }
 
+/*
 int main()
 {
     Joueur* tab = NULL;
@@ -165,4 +160,5 @@ int main()
     free(tab);
     return 0;
 }
+*/
   
