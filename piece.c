@@ -1,23 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <errno.h>
-#define COLONNE 21
-#define LIGNE 10
-#define NB_PIECE 7
-#define TAILLE_PIECE 5
-
-
-void AfficheGrille(char tab[LIGNE][COLONNE], int l, int c) {
-    printf(" A B C D E F G H I J\n");
-    for(int i = 0; i < l; i++) {
-        for(int j = 0; j < c; j++) {
-            printf("%c", tab[i][j]);
-        }
-        printf("\n");
-    }
-    printf("\n");
-}
-
+#include "fonction.h"
 
 void AffichePiece(int n, char tab[NB_PIECE][TAILLE_PIECE][TAILLE_PIECE]) {
     for(int i = 0; i < TAILLE_PIECE; i++) {
@@ -29,26 +10,18 @@ void AffichePiece(int n, char tab[NB_PIECE][TAILLE_PIECE][TAILLE_PIECE]) {
     printf("\n");
 }
 
-
-void GrilleDepart(char tab[LIGNE][COLONNE], int l, int c) {
-    for(int i = 0; i < LIGNE; i++) {
-        for(int j = 0; j < COLONNE; j++) {
-            if(j % 2 == 0) {
-                tab[i][j] = '|';
-            } else {
-                tab[i][j] = ' ';
-            }
-        }
+void ChargementPiece(char liste_matrice[NB_PIECE][TAILLE_PIECE][TAILLE_PIECE]) {
+    FILE* fichier = fopen("piece.txt", "r");
+    if (fichier == NULL) {
+        printf("Erreur ouverture fichier\n");
+        printf("Erreur %d : %s\n", errno, strerror(errno));
+        exit(1);
     }
-}
-
-
-void ChargementPiece(FILE* f, char liste_matrice[NB_PIECE][TAILLE_PIECE][TAILLE_PIECE]) {
     char c;
     for(int m = 0; m < NB_PIECE; m++) {
         for(int i = 0; i < TAILLE_PIECE; i++) {
             do{
-                c = fgetc(f);
+                c = fgetc(fichier);
             }while(c != '@' && c != '.');
             for(int j = 0; j < TAILLE_PIECE; j++) {
                 if(c == '.'){
@@ -57,31 +30,12 @@ void ChargementPiece(FILE* f, char liste_matrice[NB_PIECE][TAILLE_PIECE][TAILLE_
                 else{
                     liste_matrice[m][i][j] = c; 
                 }
-                c = fgetc(f);
+                c = fgetc(fichier);
             }
         }
     }
+    fclose(fichier);
 }
-
-void AfficheMatrice(char piece[TAILLE_PIECE][TAILLE_PIECE],int longueur,int hauteur){
-    for(int i=0;i<hauteur;i++){
-        for(int j=0;j<longueur;j++){
-            printf("%c",piece[i][j]);
-        }
-        printf("\n");
-    }
-}
-
-void Affiche_Matrice_Dynamique(char** piece,int longueur,int hauteur){
-    for(int i=0;i<hauteur;i++){
-        for(int j=0;j<longueur;j++){
-            printf("%c",piece[i][j]);
-        }
-        printf("\n");
-    }
-}
-
-
 
 void Rotation90(char piece[TAILLE_PIECE][TAILLE_PIECE],char piece_rota[TAILLE_PIECE][TAILLE_PIECE], int n){
     if(n==0){
@@ -106,38 +60,32 @@ void Rotation90(char piece[TAILLE_PIECE][TAILLE_PIECE],char piece_rota[TAILLE_PI
     }
 }
 
+
 void Taille_Piece(char matrice[TAILLE_PIECE][TAILLE_PIECE],int* longueur, int* hauteur){
-    if(matrice == NULL){
-        printf("La matrice n'existe pas");
-        exit(1);
-    }
-    int cpt=0;
-    *longueur = 0;
-    *hauteur = 0;
-    for(int i=0;i<TAILLE_PIECE;i++){
-        cpt = 0;
-        for(int j=0;j<TAILLE_PIECE;j++){
+    int min_l = TAILLE_PIECE, max_l = 0, min_h = TAILLE_PIECE, max_h = 0;
+    for(int i = 0;i<TAILLE_PIECE;i++){
+        for(int j = 0;j<TAILLE_PIECE;j++){
             if(matrice[i][j] == '@'){
-                cpt ++;
+                if(i<min_h){
+                    min_h = i;
+                }
+                if(i>max_h){
+                    max_h = i;
+                }
+                if(j<min_l){
+                    min_l = j;
+                }
+                if(j>max_l){
+                    max_l = j;
+                }
             }
         }
-        if(cpt > *longueur){
-            *longueur = cpt;
-        }
     }
-    for(int z=0;z<TAILLE_PIECE;z++){
-        cpt = 0;
-        for(int y=0;y<TAILLE_PIECE;y++){
-            if(matrice[y][z] == '@'){
-                cpt ++;
-            }
-        }
-        if(cpt > *hauteur){
-            *hauteur = cpt;
-        }
-    }
+    *longueur = max_l - min_l + 1;
+    *hauteur = max_h - min_h + 1;
     
 }
+
 char** Transformation_Piece(char piece[TAILLE_PIECE][TAILLE_PIECE],int* longueur, int* hauteur){
     int l,h,n=0;
     Taille_Piece(piece,&l,&h);
@@ -184,33 +132,4 @@ void Free_Piece(char** piece,int hauteur){
         free(piece[i]);
     }
     free(piece);
-}
-
-int main() {
-    char tab[LIGNE][COLONNE];
-    GrilleDepart(tab, LIGNE, COLONNE);
-    AfficheGrille(tab, LIGNE, COLONNE);
-    FILE* f = NULL;
-    f = fopen("piece.txt", "r");
-    if(f == NULL){
-        printf("Erreur dans l'ouverture du fichier\n");
-        printf("code d'erreur = %d \n",errno);
-        printf("Message d'erreur = %s \n", strerror(errno));
-        exit(1);
-    }
-    char pieces[NB_PIECE][TAILLE_PIECE][TAILLE_PIECE];
-    ChargementPiece(f, pieces);
-    fclose(f);
-    AfficheMatrice(pieces[1],5,5);
-    char rotation[5][5];
-    Rotation90(pieces[1],rotation,1);
-    printf("\n");
-    AfficheMatrice(rotation,5,5);
-    printf("\n\n");
-    char** t_piece = NULL;
-    int h,l;
-    t_piece = Transformation_Piece(rotation,&l,&h);
-    Affiche_Matrice_Dynamique(t_piece,l,h);
-    Free_Piece(t_piece,h);
-    return 0;
 }
