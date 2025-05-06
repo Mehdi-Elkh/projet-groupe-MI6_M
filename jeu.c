@@ -93,42 +93,54 @@ void PoserPiece(char grille[LIGNE][COLONNE], char** piece,int longueur, int haut
     }
 }
 
-// Décale toutes les lignes au-dessus de 'ligne' d'un cran vers le bas,
-// puis vide la première ligne
+// Fonction qui décale toutes les lignes de la grille vers le bas à partir d'une ligne donnée
 void DecalerLigneVersBas(char grille[LIGNE][COLONNE], int ligne) {
-    // 1) Décaler chaque ligne au-dessus de `ligne` vers le bas
+    // On parcourt les lignes de la grille de la ligne donnée jusqu'à la première ligne (en remontant)
     for (int l = ligne; l > 0; l--) {
+        // On copie chaque case de la ligne du dessus (l-1) dans la ligne courante (l)
         for (int c = 0; c < COLONNE; c++) {
-            // On copie la case de la ligne l-1 dans la ligne l
             grille[l][c] = grille[l-1][c];
         }
     }
-    // 2) Vider la première ligne (l = 0)
-    //    On remet les murs '|' aux colonnes paires et des espaces aux impaires
+
+    // Une fois toutes les lignes décalées, on vide la première ligne (indice 0)
     for (int c = 0; c < COLONNE; c++) {
         if (c % 2 == 0)
-            grille[0][c] = '|';
+            grille[0][c] = '|';  // Les colonnes paires contiennent les séparateurs '|'
         else
-            grille[0][c] = ' ';
+            grille[0][c] = ' ';  // Les colonnes impaires sont vides
     }
 }
 
-// Parcourt chaque ligne, détecte celles qui sont pleines et les supprime
+// Fonction qui détecte et supprime les lignes pleines dans la grille
 void SupprimerLignesPleines(char grille[LIGNE][COLONNE]) {
-    for (int i = LIGNE - 1; i >= 0; i--) { // partir du bas et remonter (comme dans un Tetris classique)
-        int pleine = 1;
-        for (int j = 1; j < COLONNE; j += 2) {  // Les colonnes impaires
-            if (grille[i][j] == ' ') {  // Si une colonne est vide
+    // On parcourt les lignes de la grille de bas en haut
+    for (int i = LIGNE - 1; i >= 0; i--) {
+        int pleine = 1;  // On suppose que la ligne est pleine au départ
+
+        // Parcourt uniquement les colonnes impaires (les cases de jeu)
+        for (int j = 1; j < COLONNE; j += 2) {
+            // Si on trouve une case vide, la ligne n'est pas pleine
+            if (grille[i][j] == ' ') {
                 pleine = 0;
-                break;  // Stoppe dès qu'on trouve une case vide
+                break;  // On peut arrêter de vérifier cette ligne
             }
         }
+
+        // Si la ligne est pleine
         if (pleine) {
+            // On décale toutes les lignes au-dessus vers le bas à partir de cette ligne
             DecalerLigneVersBas(grille, i);
-            i++;  // on remonte pour vérifier la même ligne maintenant décalée
+
+            // On remonte l'indice i de 1 pour revérifier la même ligne
+            // car elle contient maintenant ce qu'il y avait en i-1
+            i++;
         }
     }
 }
+
+
+
 /*void partie(Joueur* joueur){
         // Déclaration de la grille
     char grille[LIGNE][COLONNE];
