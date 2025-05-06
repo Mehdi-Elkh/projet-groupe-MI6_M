@@ -93,13 +93,18 @@ void PoserPiece(char grille[LIGNE][COLONNE], char** piece,int longueur, int haut
     }
 }
 
+// Décale toutes les lignes au-dessus de 'ligne' d'un cran vers le bas,
+// puis vide la première ligne
 void DecalerLigneVersBas(char grille[LIGNE][COLONNE], int ligne) {
+    // 1) Décaler chaque ligne au-dessus de `ligne` vers le bas
     for (int l = ligne; l > 0; l--) {
         for (int c = 0; c < COLONNE; c++) {
+            // On copie la case de la ligne l-1 dans la ligne l
             grille[l][c] = grille[l-1][c];
         }
     }
-    
+    // 2) Vider la première ligne (l = 0)
+    //    On remet les murs '|' aux colonnes paires et des espaces aux impaires
     for (int c = 0; c < COLONNE; c++) {
         if (c % 2 == 0)
             grille[0][c] = '|';
@@ -108,22 +113,22 @@ void DecalerLigneVersBas(char grille[LIGNE][COLONNE], int ligne) {
     }
 }
 
+// Parcourt chaque ligne, détecte celles qui sont pleines et les supprime
 void SupprimerLignesPleines(char grille[LIGNE][COLONNE]) {
-    for (int i = 0; i < LIGNE; i++) {
+    for (int i = LIGNE - 1; i >= 0; i--) { // partir du bas et remonter (comme dans un Tetris classique)
         int pleine = 1;
-        for (int j = 1; j < COLONNE; j += 2) {  
-            if (grille[i][j] == ' ') { 
+        for (int j = 1; j < COLONNE; j += 2) {  // Les colonnes impaires
+            if (grille[i][j] == ' ') {  // Si une colonne est vide
                 pleine = 0;
-                break;  
+                break;  // Stoppe dès qu'on trouve une case vide
             }
         }
         if (pleine) {
             DecalerLigneVersBas(grille, i);
-            i--;  
+            i++;  // on remonte pour vérifier la même ligne maintenant décalée
         }
     }
 }
-
 void partie(Joueur* joueur){
         // Déclaration de la grille
     char grille[LIGNE][COLONNE];
