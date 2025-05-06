@@ -129,7 +129,7 @@ void SupprimerLignesPleines(char grille[LIGNE][COLONNE]) {
         }
     }
 }
-void partie(Joueur* joueur){
+/*void partie(Joueur* joueur){
         // Déclaration de la grille
     char grille[LIGNE][COLONNE];
     GrilleDepart(grille,LIGNE,COLONNE);
@@ -199,4 +199,4 @@ void partie(Joueur* joueur){
     }
     joueur->score = scoreP; 
     printf("Partie terminée !\n");
-}
+}*/
