@@ -42,55 +42,74 @@ void Affiche_Matrice_Dynamique(char** piece,int longueur,int hauteur){
     }
 }
 
-void PoserPiece(char grille[LIGNE][COLONNE], char** piece,int longueur, int hauteur , int colonne) {
-    //  est-ce que la pièce va déborder ?
+int PoserPiece(char grille[LIGNE][COLONNE], char** piece, int longueur, int hauteur, int colonne) {
+    // débordement horizontal
     for (int j = 0; j < longueur; j++) {
         if (piece[0][j] == '@') {
             int position_colonne = colonne + 2 * j;
             if (position_colonne < 0 || position_colonne >= COLONNE) {
-                printf("Erreur : la pièce dépasse la grille !\n");
-                return; // On annule la pose
+                printf("Erreur : la pièce dépasse la grille sur les côtés !\n");
+                return 0; 
             }
         }
     }
 
-    // Sinon, on cherche la première ligne libre pour poser la pièce
-    int ligne_depart = 0;
-    int trouve = 0;
+    // Ligne de départ : tout en haut
+    int ligne = 0;
 
-    for (ligne_depart = 0; ligne_depart <= LIGNE - hauteur; ligne_depart++) {
+    // vérifier si on peut poser la pièce sur la ligne 0
+    for (int i = 0; i < hauteur; i++) {
+        for (int j = 0; j < longueur; j++) {
+            if (piece[i][j] == '@') {
+                int col = colonne + 2 * j;
+                int lig = ligne + i; // ligne = 0
+
+                if (lig >= LIGNE || grille[lig][col] == '@') {
+                    printf("Erreur : la pièce dépasse en haut de la grille !\n");
+                    return 0; // perdu 
+                }
+            }
+        }
+    }
+
+    // Descendre la pièce jusqu'à collision
+    while (1) {
         int collision = 0;
+
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < longueur; j++) {
                 if (piece[i][j] == '@') {
                     int col = colonne + 2 * j;
-                    if (grille[ligne_depart + i + 1][col] == '@') {
+                    int lig = ligne + i;
+
+                    // Collision si on touche le bas ou une pièce en dessous
+                    if (lig + 1 >= LIGNE || grille[lig + 1][col] == '@') {
                         collision = 1;
                     }
                 }
             }
         }
+
         if (collision) {
-            trouve = 1;
             break;
+        } else {
+            ligne++;
         }
     }
 
-    if (!trouve) {
-        ligne_depart--; 
-    } 
-
-    // Pose réelle de la pièce
+    // Pose réelle
     for (int i = 0; i < hauteur; i++) {
         for (int j = 0; j < longueur; j++) {
             if (piece[i][j] == '@') {
                 int col = colonne + 2 * j;
-                if (ligne_depart + i >= 0 && col >= 0 && col < COLONNE) {
-                    grille[ligne_depart + i][col] = '@';
+                int lig = ligne + i;
+                if (lig >= 0 && lig < LIGNE && col >= 0 && col < COLONNE) {
+                    grille[lig][col] = '@';
                 }
             }
         }
     }
+    return 1; //tout est bien 
 }
 
 // Fonction qui décale toutes les lignes de la grille vers le bas à partir d'une ligne donnée
@@ -139,9 +158,14 @@ void SupprimerLignesPleines(char grille[LIGNE][COLONNE]) {
     }
 }
 
+void vider_buffer() {
+    int c;
+    while ((c = getchar()) != '\n' );
+}
 
 
-/*void partie(Joueur* joueur){
+
+void game(Joueur* joueur){
         // Déclaration de la grille
     char grille[LIGNE][COLONNE];
     GrilleDepart(grille,LIGNE,COLONNE);
@@ -152,19 +176,24 @@ void SupprimerLignesPleines(char grille[LIGNE][COLONNE]) {
 
     int scoreP = 0;
     int jeu_en_cours = 1;
+    int dernier1 = -1;
+    int dernier2 = -1;
     while (jeu_en_cours) {
         AfficheGrille(grille, LIGNE, COLONNE);
 
         // Choix de la pièce aléatoire
-        int numero_piece = rand() % NB_PIECE;
+        int numero_piece = tirer_piece(dernier1,dernier2);
         printf("Voici votre piece :\n");
         AffichePiece(numero_piece,pieces);
-
+	// faut mettree ajour les pièce
+	dernier2 = dernier1;
+	dernier1 = numero_piece;
+	    
         // Choix de la rotation
         int angle = 0;
         printf("Entrez l'angle de rotation (0, 90, 180, 270) : ");
         scanf("%d", &angle);
-
+        vider_buffer();
         // Appliquer la rotation
         char piece_rotatee[TAILLE_PIECE][TAILLE_PIECE];
         Rotation90(pieces[numero_piece],piece_rotatee,angle/90);
@@ -180,7 +209,7 @@ void SupprimerLignesPleines(char grille[LIGNE][COLONNE]) {
         while (!reussite_pose) {
             printf("Entrez la colonne de placement (0 à 9) : ");
             scanf("%d", &colonne_choisie);
-        
+            vider_buffer();
             colonne_choisie = colonne_choisie * 2 + 1;
         
             // Avant de poser, on vérifie si la colonne est bonne
@@ -203,7 +232,7 @@ void SupprimerLignesPleines(char grille[LIGNE][COLONNE]) {
             }
         }
         SupprimerLignesPleines(grille);
-        scoreP += 50;
+        scoreP += 20;
         free(piece_joue);
 
 
@@ -211,4 +240,5 @@ void SupprimerLignesPleines(char grille[LIGNE][COLONNE]) {
     }
     joueur->score = scoreP; 
     printf("Partie terminée !\n");
-}*/
+}
+
