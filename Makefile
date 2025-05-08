@@ -13,7 +13,7 @@ score.o: score.c fonction.h
   gcc -c score.c -o score.o
 
 exec: main.o piece.o jeu.o score.o
-  gcc main.o piece.o jeu.o score.o -o exec
+  gcc main.o piece.o jeu.o score.o -o
 
 clean:
   rm -f *.o
