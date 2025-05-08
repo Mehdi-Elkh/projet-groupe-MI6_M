@@ -1,3 +1,5 @@
+include "fonction.h"
+
 int main() {
     srand(time(NULL)); 
     printf("            Bienvenue sur Tech-tris            \n\n");
