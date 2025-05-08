@@ -127,6 +127,14 @@ char** Transformation_Piece(char piece[TAILLE_PIECE][TAILLE_PIECE],int* longueur
     return tab;
 }
 
+int tirer_piece(int dernier1, int dernier2) {
+    int n;
+    do {
+        n = rand() % NB_PIECE;
+    } while (n == dernier1 || n == dernier2);
+    return n;
+}
+
 void Free_Piece(char** piece,int hauteur){
     for(int i=0;i<hauteur;i++){
         free(piece[i]);
