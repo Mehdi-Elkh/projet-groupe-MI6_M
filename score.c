@@ -135,30 +135,4 @@ void Afficher_Top5(Joueur* liste_joueur,int taille){
     }
 }
 
-/*
-int main()
-{
-    Joueur* tab = NULL;
-    int n;
-    tab = Chargement_Score(&n);
-    printf("%d\n",n);
-    for(int i=0;i<n;i++){
-        printf("%s %d\n",tab[i].nom,tab[i].score);
-    }
-    printf("\nTableau après tri : \n\n");
-    triRapide(tab,n);
-    for(int i=0;i<n;i++){
-        printf("%s %d\n",tab[i].nom,tab[i].score);
-    }
-    Croissant_a_Decroissant(tab,n);
-    printf("\nTableau après Decroissant : \n\n");
-    for(int i=0;i<n;i++){
-        printf("%s %d\n",tab[i].nom,tab[i].score);
-    }
-    printf("\n\n");
-    Afficher_Top5(tab,n);
-    free(tab);
-    return 0;
-}
-*/
   
