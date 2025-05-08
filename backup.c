@@ -342,7 +342,10 @@ void game(Joueur* joueur){
         int numero_piece = tirer_piece(dernier1,dernier2);
         printf("Voici votre piece :\n");
         AffichePiece(numero_piece,pieces);
-
+	// faut mettree ajour les pièce
+	dernier2 = dernier1;
+	dernier1 = numero_piece;
+	    
         // Choix de la rotation
         int angle = 0;
         printf("Entrez l'angle de rotation (0, 90, 180, 270) : ");
