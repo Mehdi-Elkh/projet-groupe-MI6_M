@@ -200,14 +200,14 @@ void Affiche_Matrice_Dynamique(char** piece,int longueur,int hauteur){
     }
 }
 
-void PoserPiece(char grille[LIGNE][COLONNE], char** piece, int longueur, int hauteur, int colonne) {
+int PoserPiece(char grille[LIGNE][COLONNE], char** piece, int longueur, int hauteur, int colonne) {
     // débordement horizontal
     for (int j = 0; j < longueur; j++) {
         if (piece[0][j] == '@') {
             int position_colonne = colonne + 2 * j;
             if (position_colonne < 0 || position_colonne >= COLONNE) {
                 printf("Erreur : la pièce dépasse la grille sur les côtés !\n");
-                return;
+                return 0; 
             }
         }
     }
@@ -223,8 +223,8 @@ void PoserPiece(char grille[LIGNE][COLONNE], char** piece, int longueur, int hau
                 int lig = ligne + i; // ligne = 0
 
                 if (lig >= LIGNE || grille[lig][col] == '@') {
-                    printf("Erreur : la pièce dépasse en haut de la grille ou la grille est pleine !\n");
-                    return;
+                    printf("Erreur : la pièce dépasse en haut de la grille !\n");
+                    return 0; // perdu 
                 }
             }
         }
@@ -267,6 +267,7 @@ void PoserPiece(char grille[LIGNE][COLONNE], char** piece, int longueur, int hau
             }
         }
     }
+    return 1; //tout est bien 
 }
 
 // Fonction qui décale toutes les lignes de la grille vers le bas à partir d'une ligne donnée
