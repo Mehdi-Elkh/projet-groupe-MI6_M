@@ -1,6 +1,8 @@
 #include "fonction.h"
 
 
+
+
 int main() {
     srand(time(NULL)); // Pour le hasard
 
