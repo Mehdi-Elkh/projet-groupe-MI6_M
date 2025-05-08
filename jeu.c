@@ -43,7 +43,7 @@ void Affiche_Matrice_Dynamique(char** piece,int longueur,int hauteur){
 }
 
 void PoserPiece(char grille[LIGNE][COLONNE], char** piece,int longueur, int hauteur , int colonne) {
-    // Vérification 1 : est-ce que la pièce va déborder ?
+    //  est-ce que la pièce va déborder ?
     for (int j = 0; j < longueur; j++) {
         if (piece[0][j] == '@') {
             int position_colonne = colonne + 2 * j;
