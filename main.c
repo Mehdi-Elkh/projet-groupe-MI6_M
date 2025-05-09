@@ -1,4 +1,4 @@
-include "fonction.h"
+#include "fonction.h"
 
 int main() {
     srand(time(NULL)); 
@@ -21,6 +21,7 @@ int main() {
         printf("Que souhaitez-vous faire ? (Entrez le chiffre correspondant) :  ");
         do{
             scanf("%d",&choix_Menu);
+            vider_buffer();
             if(choix_Menu<1 || choix_Menu >4){
                 printf("Erreur, veuillez choisir un chiffre correspondant au proposition si-dessous\n\n");
                 printf("1- Jouer\n");
@@ -68,6 +69,7 @@ int main() {
                     printf("Que souhaitez-vous faire ? (Entrez le chiffre correspondant) :  ");
                     do{
                         scanf("%d",&choix_Score);
+                        vider_buffer();
                         if(choix_Score<1 || choix_Score >3){
                             printf("Erreur, veuillez choisir un chiffre correspondant au proposition si-dessous\n\n");
                             printf("1- Afficher le top 5\n");
