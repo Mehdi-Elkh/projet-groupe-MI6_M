@@ -43,16 +43,7 @@ void Affiche_Matrice_Dynamique(char** piece,int longueur,int hauteur){
 }
 
 int PoserPiece(char grille[LIGNE][COLONNE], char** piece, int longueur, int hauteur, int colonne) {
-    // débordement horizontal
-    for (int j = 0; j < longueur; j++) {
-        if (piece[0][j] == '@') {
-            int position_colonne = colonne + 2 * j;
-            if (position_colonne < 0 || position_colonne >= COLONNE) {
-                printf("Erreur : la pièce dépasse la grille sur les côtés !\n");
-                return 0; 
-            }
-        }
-    }
+
 
     // Ligne de départ : tout en haut
     int ligne = 0;
@@ -71,6 +62,20 @@ int PoserPiece(char grille[LIGNE][COLONNE], char** piece, int longueur, int haut
             }
         }
     }
+    
+        // débordement horizontal
+    for(int i = 0;i<hauteur;i++){
+        for (int j = 0; j < longueur; j++) {
+            if (piece[i][j] == '@') {
+                int position_colonne = colonne + 2 * j;
+                if (position_colonne < 0 || position_colonne >= COLONNE) {
+                    printf("Erreur : la pièce dépasse la grille sur les côtés !\n");
+                    return 1; 
+                }
+            }
+        }    
+    }
+    
 
     // Descendre la pièce jusqu'à collision
     while (1) {
@@ -109,7 +114,7 @@ int PoserPiece(char grille[LIGNE][COLONNE], char** piece, int longueur, int haut
             }
         }
     }
-    return 1; //tout est bien 
+    return 2; //tout est bien 
 }
 
 // Fonction qui décale toutes les lignes de la grille vers le bas à partir d'une ligne donnée
@@ -178,6 +183,7 @@ void game(Joueur* joueur){
     int jeu_en_cours = 1;
     int dernier1 = -1;
     int dernier2 = -1;
+    int n = 0;
     while (jeu_en_cours) {
         AfficheGrille(grille, LIGNE, COLONNE);
 
@@ -222,27 +228,32 @@ void game(Joueur* joueur){
                     }
                 }
             }
-        
+            
             if (debordement) {
                 printf("Erreur : la pièce dépasse la grille, choisissez une autre colonne.\n");
             } 
             else {
-                if(PoserPiece(grille, piece_joue,longueur,hauteur, colonne_choisie)){
+                n = PoserPiece(grille, piece_joue,longueur,hauteur, colonne_choisie);
+                if(n == 0){
+                    reussite_pose = 1; 
                 	jeu_en_cours = 0; // On sort de la boucle
-		}
-		else{
-			reussite_pose = 1;
+		        }
+		        else if (n == 1){
+			        reussite_pose = 0;
+                }
+                else{
+                   reussite_pose = 1; 
+                }
             }
-        }
+        }   
+        
         SupprimerLignesPleines(grille);
         scoreP += 20;
         free(piece_joue);
 	
 
-	// : vérifier si le jeu est perdu (on verra plus tard)
     }
 
     joueur->score = scoreP; 
     printf("Partie terminée !\n");
 }
-
