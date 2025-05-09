@@ -63,6 +63,7 @@ int PoserPiece(char grille[LIGNE][COLONNE], char** piece, int longueur, int haut
         }
     }
     
+    
         // débordement horizontal
     for(int i = 0;i<hauteur;i++){
         for (int j = 0; j < longueur; j++) {
@@ -172,9 +173,29 @@ void vider_buffer() {
     while ((c = getchar()) != '\n' );
 }
 
+int placement_aleatoire(char** piece_joue,int longueur,int hauteur){
+    int debordement = 1;
+    int colonne_alea = 0;
+    while(debordement){
+        colonne_alea = rand()%10;
+        for(int i=0;i<hauteur;i++){
+            for(int j = 0; j < longueur; j++) {
+                if (piece_joue[i][j] == '@') {
+                    int position_colonne = colonne_alea + 2 * j;
+                    if (position_colonne < 0 || position_colonne >= COLONNE) {
+                        debordement = 1;
+                    }
+                    else{
+                        debordement = 0;
+                    }
+                }
+            }
+        }
+    }
+    return colonne_alea;
+}
 
-
-void game(Joueur* joueur){
+void game(Joueur* joueur,int difficulté){
         // Déclaration de la grille
     char grille[LIGNE][COLONNE];
     GrilleDepart(grille,LIGNE,COLONNE);
@@ -188,6 +209,19 @@ void game(Joueur* joueur){
     int dernier1 = -1;
     int dernier2 = -1;
     int n = 0;
+    time_t debut_t,fin_t;
+    float temps_lim;
+    float temps_fin;
+    int rotation_alea;
+    int colonne_alea;
+    if(difficulté){
+        temps_lim = LIM_TEMPS_NORMAL;
+        temps_fin = DEBUT_TEMPS_NORMAL;
+    }
+    else{
+        temps_lim = LIM_TEMPS_DUR;
+        temps_fin = DEBUT_TEMPS_DUR;
+    }
     while (jeu_en_cours) {
         AfficheGrille(grille, LIGNE, COLONNE);
 
@@ -196,12 +230,13 @@ void game(Joueur* joueur){
         printf("Voici votre piece :\n");
         AffichePiece(numero_piece,pieces);
 	// faut mettree ajour les pièce
-	dernier2 = dernier1;
-	dernier1 = numero_piece;
+	    dernier2 = dernier1;
+	    dernier1 = numero_piece;
 	    
         // Choix de la rotation
         int angle = 0;
         printf("Entrez l'angle de rotation (0, 90, 180, 270) : ");
+        debut_t = time(NULL);
         scanf("%d", &angle);
         vider_buffer();
         // Appliquer la rotation
@@ -216,42 +251,63 @@ void game(Joueur* joueur){
         char** piece_joue = NULL;
         int longueur,hauteur;
         piece_joue = Transformation_Piece(piece_rotatee,&longueur,&hauteur);
+        
         while (!reussite_pose) {
             printf("Entrez la colonne de placement (0 à 9) : ");
             scanf("%d", &colonne_choisie);
             vider_buffer();
-            colonne_choisie = colonne_choisie * 2 + 1;
-        
-            // Avant de poser, on vérifie si la colonne est bonne
-            int debordement = 0;
-            for (int j = 0; j < longueur; j++) {
-                if (piece_joue[0][j] == '@') {
-                    int position_colonne = colonne_choisie + 2 * j;
-                    if (position_colonne < 0 || position_colonne >= COLONNE) {
-                        debordement = 1;
+            fin_t = time(NULL);
+            if(difftime(fin_t,debut_t)<=temps_fin){
+                colonne_choisie = colonne_choisie * 2 + 1;
+            
+                // Avant de poser, on vérifie si la colonne est bonne
+                int debordement = 0;
+                for (int j = 0; j < longueur; j++) {
+                    if (piece_joue[0][j] == '@') {
+                        int position_colonne = colonne_choisie + 2 * j;
+                        if (position_colonne < 0 || position_colonne >= COLONNE) {
+                            debordement = 1;
+                        }
+                    }
+                }
+                
+                if (debordement) {
+                    printf("Erreur : la pièce dépasse la grille, choisissez une autre colonne.\n");
+                } 
+                else {
+                    n = PoserPiece(grille, piece_joue,longueur,hauteur, colonne_choisie);
+                    if(n == 0){
+                        reussite_pose = 1; 
+                    	jeu_en_cours = 0; 
+    		        }
+    		        else if (n == 1){
+    			        reussite_pose = 0;
+                    }
+                    else{
+                       reussite_pose = 1; 
                     }
                 }
             }
-            
-            if (debordement) {
-                printf("Erreur : la pièce dépasse la grille, choisissez une autre colonne.\n");
-            } 
-            else {
-                n = PoserPiece(grille, piece_joue,longueur,hauteur, colonne_choisie);
-                if(n == 0){
-                    reussite_pose = 1; 
-                	jeu_en_cours = 0; // On sort de la boucle
-		        }
-		        else if (n == 1){
-			        reussite_pose = 0;
-                }
-                else{
-                   reussite_pose = 1; 
-                }
+            else{
+                printf("\nTemps écoulé\n");
+                reussite_pose = 1;
             }
-        }   
+            
+        }
         
-        scoreP += SupprimerLignesPleines(grille);
+        if(difficulté){
+            if(temps_fin>LIM_TEMPS_NORMAL){
+                temps_fin -= 0.2;
+            }
+        }
+        else{
+            if(temps_fin>LIM_TEMPS_DUR){
+                temps_fin -= 0.2;
+            }
+        }
+
+        scoreP += SupprimerLignesPleines(grille); //bug post-mortem (en mode juste avant de perdre si on suprr une ligne en meme temps il give les point)
+
         free(piece_joue);
 	
 
