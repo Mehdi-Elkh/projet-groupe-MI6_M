@@ -65,42 +65,45 @@ Joueur* Chargement_Score(int* taille){
     return liste_joueur;
 }
 
-int partition(Joueur* liste_joueur,int debut,int fin){
-    int inf,sup;
-    Joueur tmp;
-    inf = debut+1;
-    sup = fin;
-    while(inf<=sup){
-        while(liste_joueur[sup].score>liste_joueur[debut].score){
-            sup--;
-        }
-        while(liste_joueur[inf].score<liste_joueur[debut].score){
-            inf++;
-        }
-        if(inf<sup){
-            tmp = liste_joueur[sup];
-            liste_joueur[sup] = liste_joueur[inf];
-            liste_joueur[inf] = tmp;
-        }
-    }
-    tmp = liste_joueur[debut];
-    liste_joueur[debut] = liste_joueur[sup];
-    liste_joueur[sup] = tmp;
-    return sup;
+
+
+void triFusion(Joueur* liste_joueur,int taille){
+    triFusionRec(liste_joueur,0,taille-1);
 }
 
-void triRapide(Joueur* liste_joueur,int taille){
-    triRapideRec(liste_joueur,0,taille-1);
-}
-
-void triRapideRec(Joueur* liste_joueur, int debut, int fin){
-    int pivot;
-    if(debut < fin){
-        pivot = partition(liste_joueur,debut,fin);
-        triRapideRec(liste_joueur,debut,pivot-1);
-        triRapideRec(liste_joueur,pivot+1,fin);
+void triFusionRec(Joueur* liste_joueur, int debut, int fin){
+    int milieu;
+    if(debut<fin){
+        milieu = (debut+fin)/2;
+        triFusionRec(liste_joueur,debut,milieu);
+        triFusionRec(liste_joueur,milieu+1,fin);
+        fusionner(liste_joueur,debut,milieu,fin);
     }
 }
+
+void fusionner(Joueur* liste_joueur, int debut, int milieu, int fin){
+    int indexA = debut;
+    int indexB = fin;
+    Joueur tab[300];
+    for(int i=debut;i<milieu+1;i++){
+        tab[i] = liste_joueur[i];
+    }
+    for(int i=milieu+1;i<fin+1;i++){
+        tab[i] = liste_joueur[fin-i+milieu+1];
+    }
+    for(int i=debut;i<fin+1;i++){
+        if(tab[indexA].score <= tab[indexB].score){
+            liste_joueur[i] = tab[indexA];
+            indexA++;
+        }
+        else{
+            liste_joueur[i] = tab[indexB];
+            indexB--;
+        }
+    }
+}
+
+
 
 void Croissant_a_Decroissant(Joueur* liste_joueur,int taille){
     Joueur* tab = NULL;
