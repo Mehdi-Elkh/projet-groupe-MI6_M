@@ -137,7 +137,8 @@ void DecalerLigneVersBas(char grille[LIGNE][COLONNE], int ligne) {
 }
 
 // Fonction qui détecte et supprime les lignes pleines dans la grille
-void SupprimerLignesPleines(char grille[LIGNE][COLONNE]) {
+int SupprimerLignesPleines(char grille[LIGNE][COLONNE]) {
+    int cpt = 0;
     // On parcourt les lignes de la grille de bas en haut
     for (int i = LIGNE - 1; i >= 0; i--) {
         int pleine = 1;  // On suppose que la ligne est pleine au départ
@@ -159,8 +160,11 @@ void SupprimerLignesPleines(char grille[LIGNE][COLONNE]) {
             // On remonte l'indice i de 1 pour revérifier la même ligne
             // car elle contient maintenant ce qu'il y avait en i-1
             i++;
+            cpt++;
         }
+        
     }
+    return cpt*50;
 }
 
 void vider_buffer() {
@@ -247,8 +251,7 @@ void game(Joueur* joueur){
             }
         }   
         
-        SupprimerLignesPleines(grille);
-        scoreP += 20;
+        scoreP += SupprimerLignesPleines(grille);
         free(piece_joue);
 	
 
