@@ -227,17 +227,21 @@ void game(Joueur* joueur){
                 printf("Erreur : la pièce dépasse la grille, choisissez une autre colonne.\n");
             } 
             else {
-                PoserPiece(grille, piece_joue,longueur,hauteur, colonne_choisie);
-                reussite_pose = 1; // On sort de la boucle
+                if(PoserPiece(grille, piece_joue,longueur,hauteur, colonne_choisie)){
+                	jeu_en_cours = 0; // On sort de la boucle
+		}
+		else{
+			reussite_pose = 1;
             }
         }
         SupprimerLignesPleines(grille);
         scoreP += 20;
         free(piece_joue);
-
+	
 
 	// : vérifier si le jeu est perdu (on verra plus tard)
     }
+
     joueur->score = scoreP; 
     printf("Partie terminée !\n");
 }
