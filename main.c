@@ -37,7 +37,7 @@ int main() {
                 printf("Choisissez un pseudo (maximum 20 caractère): ");
                 scanf("%s",joueur.nom);
                 vider_buffer();
-                game(&joueur);
+                game(&joueur,1);
                 printf("Souhaitez-vous sauvegarder le score (o/n) : ");
                 do{
                     scanf(" %c",&c);
@@ -60,7 +60,7 @@ int main() {
             case SCORE:
                 menu_score = 1;
                 liste_joueur = Chargement_Score(&taille_liste_joueur);
-                triRapide(liste_joueur,taille_liste_joueur);
+                triFusion(liste_joueur,taille_liste_joueur);
                 Croissant_a_Decroissant(liste_joueur,taille_liste_joueur);
                 while(menu_score){
                     printf("1- Afficher le top 5\n");
