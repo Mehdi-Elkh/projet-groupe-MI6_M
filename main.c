@@ -60,6 +60,8 @@ int main() {
             case SCORE:
                 menu_score = 1;
                 liste_joueur = Chargement_Score(&taille_liste_joueur);
+                triRapide(liste_joueur,taille_liste_joueur);
+                Croissant_a_Decroissant(liste_joueur,taille_liste_joueur);
                 while(menu_score){
                     printf("1- Afficher le top 5\n");
                     printf("2- Rechercher mon meilleur score\n");
