@@ -3,11 +3,18 @@
 #include <errno.h>
 #include <time.h>
 #include <string.h>
+#include <unistd.h>
 
 #define COLONNE 21
 #define LIGNE 10
 #define NB_PIECE 7
 #define TAILLE_PIECE 5
+
+#define DEBUT_TEMPS_NORMAL 10
+#define DEBUT_TEMPS_DUR  7
+#define LIM_TEMPS_NORMAL 6
+#define LIM_TEMPS_DUR 3
+
 
 typedef enum{PARTIE=1,OPTION,SCORE,QUITTER}Choixmenu;
 
@@ -36,16 +43,17 @@ void Affiche_Matrice_Dynamique(char** piece,int longueur,int hauteur);
 int PoserPiece(char grille[LIGNE][COLONNE], char** piece,int longueur, int hauteur , int colonne);
 void DecalerLigneVersBas(char grille[LIGNE][COLONNE], int ligne);
 int SupprimerLignesPleines(char grille[LIGNE][COLONNE]);
+int placement_aleatoire(char** piece_joue,int hauteur,int longueur);
 void vider_buffer();
-void game(Joueur* joueur);
+void game(Joueur* joueur,int difficulté);
 
 //fonction_score :
 
 void Enregistrement_Score(Joueur joueur);
 int Nombre_Joueur();
 Joueur* Chargement_Score(int* taille);
-int partition(Joueur* liste_joueur,int debut,int fin);
-void triRapide(Joueur* liste_joueur,int taille);
-void triRapideRec(Joueur* liste_joueur, int debut, int fin);
+void triFusion(Joueur* liste_joueur,int taille);
+void triFusionRec(Joueur* liste_joueur, int debut, int fin);
+void fusionner(Joueur* liste_joueur, int debut, int milieu, int fin);
 void Croissant_a_Decroissant(Joueur* liste_joueur,int taille);
 void Afficher_Top5(Joueur* liste_joueur,int taille);
