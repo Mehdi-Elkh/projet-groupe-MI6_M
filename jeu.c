@@ -177,7 +177,7 @@ int placement_aleatoire(char** piece_joue,int longueur,int hauteur){
     int debordement = 1;
     int colonne_alea = 0;
     while(debordement){
-        colonne_alea = rand()%10;
+        colonne_alea = (rand()%10)*2+1;
         for(int i=0;i<hauteur;i++){
             for(int j = 0; j < longueur; j++) {
                 if (piece_joue[i][j] == '@') {
@@ -214,6 +214,7 @@ void game(Joueur* joueur,int difficulté){
     float temps_fin;
     int rotation_alea;
     int colonne_alea;
+    float diff_temps;
     if(difficulté){
         temps_lim = LIM_TEMPS_NORMAL;
         temps_fin = DEBUT_TEMPS_NORMAL;
@@ -224,6 +225,8 @@ void game(Joueur* joueur,int difficulté){
     }
     while (jeu_en_cours) {
         AfficheGrille(grille, LIGNE, COLONNE);
+        
+        printf("\nVous avez %.2fs pour jouer\n",temps_fin);
 
         // Choix de la pièce aléatoire
         int numero_piece = tirer_piece(dernier1,dernier2);
@@ -257,7 +260,9 @@ void game(Joueur* joueur,int difficulté){
             scanf("%d", &colonne_choisie);
             vider_buffer();
             fin_t = time(NULL);
-            if(difftime(fin_t,debut_t)<=temps_fin){
+            diff_temps = difftime(fin_t,debut_t);
+            printf("\nVous avez pris %.2fs a jouer\n\n",diff_temps);
+            if(diff_temps<=temps_fin){
                 colonne_choisie = colonne_choisie * 2 + 1;
             
                 // Avant de poser, on vérifie si la colonne est bonne
@@ -289,8 +294,23 @@ void game(Joueur* joueur,int difficulté){
                 }
             }
             else{
-                printf("\nTemps écoulé\n");
-                reussite_pose = 1;
+                printf("Temps écoulé\n");
+                rotation_alea = rand()%4;
+                Rotation90(pieces[numero_piece],piece_rotatee,rotation_alea);
+                free(piece_joue);
+                piece_joue = Transformation_Piece(piece_rotatee,&longueur,&hauteur);
+                colonne_alea = placement_aleatoire(piece_joue,longueur,hauteur);
+                n = PoserPiece(grille, piece_joue,longueur,hauteur, colonne_alea);
+                if(n == 0){
+                    reussite_pose = 1; 
+                	jeu_en_cours = 0; 
+		        }
+		        else if(n == 1){
+			        reussite_pose = 0;
+                }
+                else{
+                    reussite_pose = 1; 
+                }
             }
             
         }
@@ -305,9 +325,9 @@ void game(Joueur* joueur,int difficulté){
                 temps_fin -= 0.2;
             }
         }
-
-        scoreP += SupprimerLignesPleines(grille); //bug post-mortem (en mode juste avant de perdre si on suprr une ligne en meme temps il give les point)
-
+        if(jeu_en_cours){
+            scoreP += SupprimerLignesPleines(grille); 
+        }
         free(piece_joue);
 	
 
