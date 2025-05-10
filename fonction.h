@@ -4,16 +4,17 @@
 #include <time.h>
 #include <string.h>
 #include <unistd.h>
+#include <math.h>
 
 #define COLONNE 21
 #define LIGNE 10
 #define NB_PIECE 7
 #define TAILLE_PIECE 5
 
-#define DEBUT_TEMPS_NORMAL 10
-#define DEBUT_TEMPS_DUR  7
-#define LIM_TEMPS_NORMAL 6
-#define LIM_TEMPS_DUR 3
+#define DEBUT_TEMPS_NORMAL 20
+#define DEBUT_TEMPS_DUR  12
+#define LIM_TEMPS_NORMAL 19
+#define LIM_TEMPS_DUR 6
 
 
 typedef enum{PARTIE=1,OPTION,SCORE,QUITTER}Choixmenu;
