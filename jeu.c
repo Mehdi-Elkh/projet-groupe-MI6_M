@@ -209,7 +209,7 @@ void game(Joueur* joueur,int difficulté){
     int dernier1 = -1;
     int dernier2 = -1;
     int n = 0;
-    time_t debut_t,fin_t;
+    struct timespec debut_t,fin_t;
     float temps_lim;
     float temps_fin;
     int rotation_alea;
@@ -239,7 +239,7 @@ void game(Joueur* joueur,int difficulté){
         // Choix de la rotation
         int angle = 0;
         printf("Entrez l'angle de rotation (0, 90, 180, 270) : ");
-        debut_t = time(NULL);
+        timespec_get(&debut_t,TIME_UTC);
         scanf("%d", &angle);
         vider_buffer();
         // Appliquer la rotation
@@ -259,8 +259,8 @@ void game(Joueur* joueur,int difficulté){
             printf("Entrez la colonne de placement (0 à 9) : ");
             scanf("%d", &colonne_choisie);
             vider_buffer();
-            fin_t = time(NULL);
-            diff_temps = difftime(fin_t,debut_t);
+            timespec_get(&fin_t,TIME_UTC);
+            diff_temps = (fin_t.tv_sec + fin_t.tv_nsec*pow(10,-9)) - (debut_t.tv_sec + debut_t.tv_nsec*pow(10,-9));
             printf("\nVous avez pris %.2fs a jouer\n\n",diff_temps);
             if(diff_temps<=temps_fin){
                 colonne_choisie = colonne_choisie * 2 + 1;
