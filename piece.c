@@ -90,7 +90,6 @@ void Taille_Piece(char matrice[TAILLE_PIECE][TAILLE_PIECE],int* longueur, int* h
 
     if (min_h == TAILLE_PIECE) {
         printf("Erreur : aucune case '@' trouvée dans la pièce pour calculer sa taille.\n");
-        printf("Erreur %d : %s\n", errno, strerror(errno));
         exit(1);
     }
     
@@ -132,7 +131,6 @@ char** Transformation_Piece(char piece[TAILLE_PIECE][TAILLE_PIECE],int* longueur
 
     if (debut_h == TAILLE_PIECE && debut_l == TAILLE_PIECE) {
         printf("Erreur : la pièce ne contient aucun '@'\n");
-        printf("Erreur %d : %s\n", errno, strerror(errno));
         exit(1);
     }
     
