@@ -13,7 +13,7 @@
 
 #define DEBUT_TEMPS_NORMAL 20
 #define DEBUT_TEMPS_DUR  12
-#define LIM_TEMPS_NORMAL 19
+#define LIM_TEMPS_NORMAL 10
 #define LIM_TEMPS_DUR 6
 
 
