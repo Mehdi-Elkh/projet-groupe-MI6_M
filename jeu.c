@@ -203,7 +203,7 @@ void game(Joueur* joueur,int difficulté){
     // Chargement des pièces
     char pieces[NB_PIECE][TAILLE_PIECE][TAILLE_PIECE];
     ChargementPiece(pieces);
-
+    int tour = 0;
     int scoreP = 0;
     int jeu_en_cours = 1;
     int dernier1 = -1;
@@ -224,6 +224,11 @@ void game(Joueur* joueur,int difficulté){
         temps_fin = DEBUT_TEMPS_DUR;
     }
     while (jeu_en_cours) {
+        printf("\033[H\033[2J");
+        if(tour>0){
+            printf("\nVous avez pris %.2fs a jouer\n\n",diff_temps);
+        }
+
         AfficheGrille(grille, LIGNE, COLONNE);
         
         printf("\nVous avez %.2fs pour jouer\n",temps_fin);
@@ -281,7 +286,6 @@ void game(Joueur* joueur,int difficulté){
             }
             timespec_get(&fin_t,TIME_UTC);
             diff_temps = (fin_t.tv_sec + fin_t.tv_nsec*pow(10,-9)) - (debut_t.tv_sec + debut_t.tv_nsec*pow(10,-9));
-            printf("\nVous avez pris %.2fs a jouer\n\n",diff_temps);
             if(diff_temps<=temps_fin){
                 colonne_choisie = colonne_choisie * 2 + 1;
             
@@ -315,6 +319,7 @@ void game(Joueur* joueur,int difficulté){
             }
             else{
                 printf("Temps écoulé\n");
+                sleep(1);
                 rotation_alea = rand()%4;
                 Rotation90(pieces[numero_piece],piece_rotatee,rotation_alea);
                 free(piece_joue);
@@ -349,7 +354,7 @@ void game(Joueur* joueur,int difficulté){
             scoreP += SupprimerLignesPleines(grille); 
         }
         free(piece_joue);
-	
+        tour++;
 
     }
 
