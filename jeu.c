@@ -237,11 +237,21 @@ void game(Joueur* joueur,int difficulté){
 	    dernier1 = numero_piece;
 	    
         // Choix de la rotation
-        int angle = 0;
-        printf("Entrez l'angle de rotation (0, 90, 180, 270) : ");
-        timespec_get(&debut_t,TIME_UTC);
-        scanf("%d", &angle);
-        vider_buffer();
+        int angle = -1;
+        do {
+            printf("Entrez l'angle de rotation (0, 90, 180, 270) : ");
+            if (scanf("%d", &angle) != 1) {
+                printf("Entrée invalide ! Veuillez entrer un nombre.\n");
+                vider_buffer();
+                angle = -1;
+                continue;
+            }
+            vider_buffer();
+            if (angle != 0 && angle != 90 && angle != 180 && angle != 270) {
+                printf("Angle invalide, veuillez réessayer.\n");
+            }
+        } while (angle != 0 && angle != 90 && angle != 180 && angle != 270);
+
         // Appliquer la rotation
         char piece_rotatee[TAILLE_PIECE][TAILLE_PIECE];
         Rotation90(pieces[numero_piece],piece_rotatee,angle/90);
