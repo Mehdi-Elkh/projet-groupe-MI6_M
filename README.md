@@ -1,10 +1,10 @@
-Projet TECH-TRIS
-Ce projet a pour but de recréer le jeu tétris en C directement dans le terminal.  
+# TECH-TRIS
+Ce projet a pour but de recréer le jeu tetris en C directement sur le terminal linux.  
 
-- Prérequis :
+## Prérequis :
   - Version du language C : C11 ou ultérieure
 
-1) Fonctionnalités principales :  
+## 1) Fonctionnalités principales :  
  - Jouer à TECH-TRIS en essayant d’aligner les pièces pour marquer des points.  
  - Système de difficulté.  
  - Système de score avec enregistrement dans un fichier.  
@@ -13,7 +13,7 @@ Ce projet a pour but de recréer le jeu tétris en C directement dans le termina
  - Rotation des pièces et gestion des collisions.  
  - Chargement des pièces depuis un fichier.  
 
- 2) Organisation de notre Files  
+ ## 2) Organisation de notre Files  
   - main.c:  Point d’entrée du programme  
   - jeu.c / jeu.h: Fonctions de gestion de la grille et du jeu  
   - piece.c / piece.h: Fonctions liées aux pièces (rotation, création, etc.)
@@ -24,7 +24,7 @@ Ce projet a pour but de recréer le jeu tétris en C directement dans le termina
   - Rapport-techtris.pdf:  Rapport technique du projet  
 
 
-3) Fonctionnement du jeu:  
+## 3) Fonctionnement du jeu:  
 Dès le lancement du programme, un menu principal s’affiche vous permettant de :   
   - Jouer directement en mode facile,  
   - Choisir un niveau de difficulté facile ou difficile,  
@@ -32,7 +32,7 @@ Dès le lancement du programme, un menu principal s’affiche vous permettant de
     - Consulter le top 5 des meilleurs joueurs,  
     - Rechercher votre meilleur score à partir de votre nom d’utilisateur, qui vous sera demandé avant le début de la partie.  
 
-4) Comment jouer :  
+## 4) Comment jouer :  
 - Choisissez une rotation pour la pièce dans le sens horaire.  
 - Choisissez une colonne dans laquelle placer la pièce en prenant en compte que ça placera le côté le plus a gauche de la piece dans cette colonne.
 - Complétez les lignes afin de gagner des points.
