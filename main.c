@@ -143,7 +143,7 @@ int main() {
                         case 1:
                             printf("\n");
                             Afficher_Top5(liste_joueur,taille_liste_joueur);
-                            sleep(4);
+                            sleep(3);
                             printf("\033[H\033[2J");
                             break;
                         case 2:
@@ -166,7 +166,7 @@ int main() {
                             }
                             else{
                                 printf("\nNom : %s\nMeilleur score : %d\n\n",nom_recherche,score_temp);
-                                sleep(4);
+                                sleep(3);
                             }
                             printf("\033[H\033[2J");
                             break;
