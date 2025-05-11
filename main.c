@@ -3,6 +3,7 @@
 #include "jeu.h"
 
 int main() {
+    printf("\033[H\033[2J");
     srand(time(NULL)); 
     printf("            Bienvenue sur Tech-tris            \n\n");
     int choix_Menu, choix_Score, choix_option;
@@ -37,10 +38,12 @@ int main() {
         }while(choix_Menu<1 || choix_Menu >4);
         
         switch(choix_Menu){
-            case PARTIE:
+            case PARTIE:     
+                printf("\033[H\033[2J");
                 printf("Choisissez un pseudo (maximum 20 caractères): ");
                 scanf("%s",joueur.nom);
                 vider_buffer();
+                printf("\033[H\033[2J");
                 game(&joueur,difficulté);
                 printf("Souhaitez-vous sauvegarder le score (o/n) : ");
                 do{
@@ -55,12 +58,14 @@ int main() {
                 if(c == 'o' || c == 'O'){
                     Enregistrement_Score(joueur);
                     printf("Nom : %s ; Score : %d a bien été enregistré \n\n",joueur.nom,joueur.score);
+                    sleep(2);
                 }
-                
+                printf("\033[H\033[2J");
                 break;
             case OPTION:
                 menu_option = 1;
                 while(menu_option){
+                    printf("\033[H\033[2J");
                     printf("1- Mode normale\n");
                     printf("2- Mode difficile\n");
                     printf("3- Quitter\n");
@@ -69,7 +74,7 @@ int main() {
                         scanf("%d",&choix_option);
                         vider_buffer();
                         if(choix_option<1 || choix_option >3){
-                            printf("Erreur, veuillez choisir un chiffre correspondant au proposition si-dessous\n\n");
+                            printf("\nErreur, veuillez choisir un chiffre correspondant au proposition si-dessous\n\n");
                             printf("1- Mode normale\n");
                             printf("2- Mode difficile\n");
                             printf("3- Quitter\n");
@@ -79,29 +84,35 @@ int main() {
                     switch(choix_option){
                         case 1:
                             if(difficulté){
-                                printf("Le mode normale est déjà activé\n");
+                                printf("\nLe mode normale est déjà activé\n");
+                                sleep(1);
                             }
                             else{
                                 difficulté = 1;
-                                printf("Le mode normale est activé\n");
+                                printf("\nLe mode normale est activé\n");
+                                sleep(1);
                             }
                             break;
                         case 2:
                             if(difficulté){
                                 difficulté = 0;
-                                printf("Le mode difficile est activé\n");
+                                printf("\nLe mode difficile est activé\n");
+                                sleep(1);
                             }
                             else{
-                                printf("Le mode difficile est déjà activé\n");
+                                printf("\nLe mode difficile est déjà activé\n");
+                                sleep(1);
                             }
                             break;
                         case 3:
+                            printf("\033[H\033[2J");
                             menu_option = 0;
                             break;
                     }
                 }
                 break;
             case SCORE:
+                printf("\033[H\033[2J");
                 menu_score = 1;
                 liste_joueur = Chargement_Score(&taille_liste_joueur);
                 triFusion(liste_joueur,taille_liste_joueur);
@@ -115,7 +126,7 @@ int main() {
                         scanf("%d",&choix_Score);
                         vider_buffer();
                         if(choix_Score<1 || choix_Score >3){
-                            printf("Erreur, veuillez choisir un chiffre correspondant au proposition si-dessous\n\n");
+                            printf("\nErreur, veuillez choisir un chiffre correspondant au proposition si-dessous\n\n");
                             printf("1- Afficher le top 5\n");
                             printf("2- Rechercher mon meilleur score\n");
                             printf("3- Quitter\n");
@@ -126,9 +137,11 @@ int main() {
                         case 1:
                             printf("\n");
                             Afficher_Top5(liste_joueur,taille_liste_joueur);
+                            sleep(4);
+                            printf("\033[H\033[2J");
                             break;
                         case 2:
-                            printf("Entrez le nom : ");
+                            printf("\nEntrez le nom : ");
                             scanf("%s",nom_recherche);
                             vider_buffer();
                             apparition = 0;
@@ -142,25 +155,29 @@ int main() {
                                 }
                             }
                             if(apparition == 0){
-                                printf("Le joueur %s n'a pas de score enregistré\n",nom_recherche);
+                                printf("\nLe joueur %s n'a pas de score enregistré\n",nom_recherche);
+                                sleep(2);
                             }
                             else{
-                                printf("Nom : %s\nMeilleur score : %d\n\n",nom_recherche,score_temp);
+                                printf("\nNom : %s\nMeilleur score : %d\n\n",nom_recherche,score_temp);
+                                sleep(4);
                             }
+                            printf("\033[H\033[2J");
                             break;
                         case 3:
                             free(liste_joueur);
                             menu_score = 0;
+                            printf("\033[H\033[2J");
                             break;
                     }
                 }
                 break;
             case QUITTER:
-                printf("Vous avez choisi quitter\n\n");
                 menu = 0;
                 break;
         }
     }
-    printf("Merci d'avoir joué !\n");
+    printf("\033[H\033[2J");
+    printf("Merci d'avoir joué !\n\n");
     return 0;
 }
