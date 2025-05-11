@@ -26,9 +26,9 @@ void GrilleDepart(char tab[LIGNE][COLONNE], int l, int c) {
 
 // Pour les matrices
 
-void AfficheMatrice(char piece[TAILLE_PIECE][TAILLE_PIECE],int longueur,int hauteur){
-    for(int i=0;i<hauteur;i++){
-        for(int j=0;j<longueur;j++){
+void AfficheMatrice(char piece[TAILLE_PIECE][TAILLE_PIECE]){
+    for(int i=0;i<TAILLE_PIECE;i++){
+        for(int j=0;j<TAILLE_PIECE;j++){
             printf("%c",piece[i][j]);
         }
         printf("\n");
