@@ -22,6 +22,12 @@ void ChargementPiece(char liste_matrice[NB_PIECE][TAILLE_PIECE][TAILLE_PIECE]) {
         for(int i = 0; i < TAILLE_PIECE; i++) {
             do{
                 c = fgetc(fichier);
+                if ( c  == EOF) {
+                    printf("Erreur lecture fichier\n");
+                    printf("Erreur %d : %s\n", errno, strerror(errno));
+                    fclose(fichier);
+                    exit(1);
+                }
             }while(c != '@' && c != '.');
             for(int j = 0; j < TAILLE_PIECE; j++) {
                 if(c == '.'){
@@ -81,6 +87,13 @@ void Taille_Piece(char matrice[TAILLE_PIECE][TAILLE_PIECE],int* longueur, int* h
             }
         }
     }
+
+    if (min_h == TAILLE_PIECE) {
+        printf("Erreur : aucune case '@' trouvée dans la pièce pour calculer sa taille.\n");
+        printf("Erreur %d : %s\n", errno, strerror(errno));
+        exit(1);
+    }
+    
     *longueur = max_l - min_l + 1;
     *hauteur = max_h - min_h + 1;
     
@@ -116,12 +129,19 @@ char** Transformation_Piece(char piece[TAILLE_PIECE][TAILLE_PIECE],int* longueur
             }
         }
     }
+
+    if (debut_h == TAILLE_PIECE && debut_l == TAILLE_PIECE) {
+        printf("Erreur : la pièce ne contient aucun '@'\n");
+        printf("Erreur %d : %s\n", errno, strerror(errno));
+        exit(1);
+    }
     
     for(int i=0;i<h;i++){
         for(int j=0;j<l;j++){
             tab[i][j] = piece[debut_h+i][debut_l+j];
         }
     }
+    
     *longueur = l;
     *hauteur = h;
     return tab;
@@ -136,8 +156,10 @@ int tirer_piece(int dernier1, int dernier2) {
 }
 
 void Free_Piece(char** piece,int hauteur){
-    for(int i=0;i<hauteur;i++){
-        free(piece[i]);
+    if (piece != NULL) {
+        for(int i=0;i<hauteur;i++){
+            free(piece[i]);
+        }
+        free(piece);
     }
-    free(piece);
 }
