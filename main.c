@@ -94,7 +94,7 @@ int main() {
                             }
                             break;
                         case 2:
-                            if(difficulté){
+                            if(difficulte){
                                 difficulte = 0;
                                 printf("\nLe mode difficile est activé\n");
                                 sleep(1);
