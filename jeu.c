@@ -260,7 +260,7 @@ void game(Joueur* joueur,int difficulte){
         char piece_rotatee[TAILLE_PIECE][TAILLE_PIECE];
         Rotation90(pieces[numero_piece],piece_rotatee,angle/90);
         printf("Voici votre piece après rotation :\n");
-        AfficheMatrice(piece_rotatee,TAILLE_PIECE,TAILLE_PIECE);
+        AfficheMatrice(piece_rotatee);
 
         // Choix de la colonne
         int colonne_choisie = 0;
