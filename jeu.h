@@ -23,7 +23,7 @@ typedef enum{PARTIE=1,OPTION,SCORE,QUITTER}Choixmenu;
 void AfficheGrille(char tab[LIGNE][COLONNE], int l, int c);
 void AffichePiece(int n, char tab[NB_PIECE][TAILLE_PIECE][TAILLE_PIECE]);
 void GrilleDepart(char tab[LIGNE][COLONNE], int l, int c);
-void AfficheMatrice(char piece[TAILLE_PIECE][TAILLE_PIECE],int longueur,int hauteur);
+void AfficheMatrice(char piece[TAILLE_PIECE][TAILLE_PIECE]);
 void Affiche_Matrice_Dynamique(char** piece,int longueur,int hauteur);
 int PoserPiece(char grille[LIGNE][COLONNE], char** piece,int longueur, int hauteur , int colonne);
 void DecalerLigneVersBas(char grille[LIGNE][COLONNE], int ligne);
