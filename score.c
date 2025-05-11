@@ -4,7 +4,9 @@ void Enregistrement_Score(Joueur joueur){
         FILE* fichier = NULL;
         fichier = fopen("score.txt","a");
         if(fichier == NULL){
-            printf("Erreur dans l'ouverture du fichier score.txt");
+            printf("Erreur dans l'ouverture du fichier score.txt\n");
+            printf("Erreur : %s\n",strerror(errno));
+            printf("Code erreur : %d\n",errno);
             exit(1);
         }
         
@@ -21,7 +23,9 @@ int Nombre_Joueur(){
     FILE* fichier = NULL;
     fichier = fopen("score.txt","r");
     if(fichier == NULL){
-        printf("Erreur dans l'ouverture du fichier score.txt");
+        printf("Erreur dans l'ouverture du fichier score.txt\n");
+        printf("Erreur : %s\n",strerror(errno));
+        printf("Code erreur : %d\n",errno);
         exit(1);
     }
     char c = ' ';
@@ -47,15 +51,21 @@ Joueur* Chargement_Score(int* taille){
     Joueur* liste_joueur = NULL;
     int n = 0;
     n = Nombre_Joueur();
+    if(n < 0){
+        printf("Erreur dans le Chargement_Score, n doit etre positif\n");
+        exit(1);
+    }
     FILE* fichier = NULL;
     fichier = fopen("score.txt","r");
     if(fichier == NULL){
-        printf("Erreur dans l'ouverture du fichier score.txt");
+        printf("Erreur dans l'ouverture du fichier score.txt\n");
+        printf("Erreur : %s\n",strerror(errno));
+        printf("Code erreur : %d\n",errno);
         exit(1);
     }
     liste_joueur = malloc(n * sizeof(Joueur));
     if(liste_joueur == NULL){
-        printf("L'allocation memoire de liste_joueur à echouer ligne 61");
+        printf("L'allocation memoire de liste_joueur à echouer ligne 61\n");
         exit(1);
     }
     for(int i=0;i<n;i++){
@@ -68,6 +78,14 @@ Joueur* Chargement_Score(int* taille){
 
 
 void triFusion(Joueur* liste_joueur,int taille){
+    if(liste_joueur == NULL){
+        printf("Erreur dans le tri fusion, liste_joueur est NULL\n");
+        exit(1);
+    }
+    if(taille <= 0){
+        printf("Erreur dans le tri fusion, taille doit etre superieur à 0\n");
+        exit(1);
+    }
     triFusionRec(liste_joueur,0,taille-1);
 }
 
@@ -84,7 +102,11 @@ void triFusionRec(Joueur* liste_joueur, int debut, int fin){
 void fusionner(Joueur* liste_joueur, int debut, int milieu, int fin){
     int indexA = debut;
     int indexB = fin;
-    Joueur tab[300];
+    Joueur* tab = malloc((fin+1) * sizeof(Joueur));
+    if(tab == NULL){
+        printf("L'allocation memoire de tab ligne 98 a échoué\n");
+        exit(1);
+    }
     for(int i=debut;i<milieu+1;i++){
         tab[i] = liste_joueur[i];
     }
@@ -101,15 +123,25 @@ void fusionner(Joueur* liste_joueur, int debut, int milieu, int fin){
             indexB--;
         }
     }
+    free(tab);
 }
 
 
 
 void Croissant_a_Decroissant(Joueur* liste_joueur,int taille){
+    if(liste_joueur == NULL){
+        printf("Erreur dans Croissant_a_Decroissant, liste_joueur est NULL\n");
+        exit(1);
+    }
+    if(taille < 0){
+        printf("Erreur dans Croissant_a_Decroissant, taille doit etre positif\n");
+        exit(1);
+    }
+
     Joueur* tab = NULL;
     tab = malloc(taille * sizeof(Joueur));
     if(tab == NULL){
-        printf("Erreur de l'allocation memoire tab ligne 113");
+        printf("Erreur de l'allocation memoire tab ligne 113\n");
         exit(1);
     }
     for(int i=0;i<taille;i++){
@@ -122,10 +154,14 @@ void Croissant_a_Decroissant(Joueur* liste_joueur,int taille){
 }
 
 void Afficher_Top5(Joueur* liste_joueur,int taille){
+    if(liste_joueur == NULL){
+        printf("Erreur dans l'affichage du top 5, liste_joueur est NULL\n");
+        exit(1);
+    }
     if(taille<5){
         printf("TOP 5\n\n");
         for(int i=0;i<taille;i++){
-            printf("%d- %s %d\n",i,liste_joueur[i].nom,liste_joueur[i].score);
+            printf("%d- %s %d\n",i+1,liste_joueur[i].nom,liste_joueur[i].score);
         }
         printf("\n");
     }
