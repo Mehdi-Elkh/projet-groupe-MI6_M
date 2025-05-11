@@ -17,7 +17,7 @@ int main() {
     int taille_liste_joueur = 0;
     int apparition;
     int score_temp;
-    int difficulté = 1;
+    int difficulte = 1;
     while(menu){
         printf("1- Jouer\n");
         printf("2- Difficulté\n");
@@ -44,7 +44,7 @@ int main() {
                 scanf("%s",joueur.nom);
                 vider_buffer();
                 printf("\033[H\033[2J");
-                game(&joueur,difficulté);
+                game(&joueur,difficulte);
                 printf("Souhaitez-vous sauvegarder le score (o/n) : ");
                 do{
                     scanf(" %c",&c);
@@ -83,19 +83,19 @@ int main() {
                     }while(choix_option<1 || choix_option >3);
                     switch(choix_option){
                         case 1:
-                            if(difficulté){
+                            if(difficulte){
                                 printf("\nLe mode normale est déjà activé\n");
                                 sleep(1);
                             }
                             else{
-                                difficulté = 1;
+                                difficulte = 1;
                                 printf("\nLe mode normale est activé\n");
                                 sleep(1);
                             }
                             break;
                         case 2:
                             if(difficulté){
-                                difficulté = 0;
+                                difficulte = 0;
                                 printf("\nLe mode difficile est activé\n");
                                 sleep(1);
                             }
