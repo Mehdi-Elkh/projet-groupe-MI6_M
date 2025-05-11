@@ -1,5 +1,6 @@
 #include "jeu.h"
 
+//Pour la grille
 void AfficheGrille(char tab[LIGNE][COLONNE], int l, int c) {
     printf(" 0 1 2 3 4 5 6 7 8 9\n");
     for(int i = 0; i < l; i++) {
@@ -23,6 +24,8 @@ void GrilleDepart(char tab[LIGNE][COLONNE], int l, int c) {
     }
 }
 
+// Pour les matrices
+
 void AfficheMatrice(char piece[TAILLE_PIECE][TAILLE_PIECE],int longueur,int hauteur){
     for(int i=0;i<hauteur;i++){
         for(int j=0;j<longueur;j++){
@@ -41,6 +44,8 @@ void Affiche_Matrice_Dynamique(char** piece,int longueur,int hauteur){
         printf("\n");
     }
 }
+
+// Fonction pour poser les pièce dans la grille
 
 int PoserPiece(char grille[LIGNE][COLONNE], char** piece, int longueur, int hauteur, int colonne) {
 
@@ -223,6 +228,7 @@ void game(Joueur* joueur,int difficulte){
         temps_lim = LIM_TEMPS_DUR;
         temps_fin = DEBUT_TEMPS_DUR;
     }
+	// "Le jeu "
     while (jeu_en_cours) {
         printf("\033[H\033[2J");
         if(tour>0){
@@ -317,7 +323,7 @@ void game(Joueur* joueur,int difficulte){
                     }
                 }
             }
-            else{
+            else{ // Trop de temps donc aléatoire pièce
                 printf("Temps écoulé\n");
                 sleep(1);
                 rotation_alea = rand()%4;
