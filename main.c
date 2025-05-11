@@ -57,9 +57,15 @@ int main() {
                 
                 if(c == 'o' || c == 'O'){
                     Enregistrement_Score(joueur);
-                    printf("Nom : %s ; Score : %d a bien été enregistré \n\n",joueur.nom,joueur.score);
-                    sleep(2);
+                    printf("\nNom : %s ; Score : %d a bien été enregistré \n",joueur.nom,joueur.score);
                 }
+                liste_joueur = Chargement_Score(&taille_liste_joueur);
+                triFusion(liste_joueur,taille_liste_joueur);
+                Croissant_a_Decroissant(liste_joueur,taille_liste_joueur);
+                printf("\nLe top 5 est le suivant : \n\n");
+                Afficher_Top5(liste_joueur,taille_liste_joueur);
+                free(liste_joueur);
+                sleep(4);
                 printf("\033[H\033[2J");
                 break;
             case OPTION:
