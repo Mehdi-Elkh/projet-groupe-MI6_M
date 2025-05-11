@@ -268,8 +268,17 @@ void game(Joueur* joueur,int difficulté){
         
         while (!reussite_pose) {
             printf("Entrez la colonne de placement (0 à 9) : ");
-            scanf("%d", &colonne_choisie);
+            if (scanf("%d", &colonne_choisie) != 1) {
+                printf("Entrée invalide ! Veuillez entrer un nombre.\n");
+                vider_buffer();
+                continue;
+            }
             vider_buffer();
+
+            if (colonne_choisie < 0 || colonne_choisie > 9) {
+                printf("Colonne invalide. Veuillez choisir entre 0 et 9.\n");
+                continue;
+            }
             timespec_get(&fin_t,TIME_UTC);
             diff_temps = (fin_t.tv_sec + fin_t.tv_nsec*pow(10,-9)) - (debut_t.tv_sec + debut_t.tv_nsec*pow(10,-9));
             printf("\nVous avez pris %.2fs a jouer\n\n",diff_temps);
