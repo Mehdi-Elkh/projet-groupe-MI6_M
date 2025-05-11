@@ -30,6 +30,6 @@ void DecalerLigneVersBas(char grille[LIGNE][COLONNE], int ligne);
 int SupprimerLignesPleines(char grille[LIGNE][COLONNE]);
 int placement_aleatoire(char** piece_joue,int hauteur,int longueur);
 void vider_buffer();
-void game(Joueur* joueur,int difficulté);
+void game(Joueur* joueur,int difficulte);
 
 #endif
