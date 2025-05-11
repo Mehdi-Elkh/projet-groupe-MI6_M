@@ -238,6 +238,7 @@ void game(Joueur* joueur,int difficulté){
 	    
         // Choix de la rotation
         int angle = -1;
+	timespec_get(&debut_t,TIME_UTC);
         do {
             printf("Entrez l'angle de rotation (0, 90, 180, 270) : ");
             if (scanf("%d", &angle) != 1) {
