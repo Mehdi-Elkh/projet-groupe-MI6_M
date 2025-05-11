@@ -3,9 +3,10 @@
 int main() {
     srand(time(NULL)); 
     printf("            Bienvenue sur Tech-tris            \n\n");
-    int choix_Menu, choix_Score;
+    int choix_Menu, choix_Score, choix_option;
     int menu = 1;
     int menu_score = 1;
+    int menu_option = 1;
     char c;
     Joueur joueur;
     Joueur* liste_joueur = NULL;
@@ -13,6 +14,7 @@ int main() {
     int taille_liste_joueur = 0;
     int apparition;
     int score_temp;
+    int difficulté = 1;
     while(menu){
         printf("1- Jouer\n");
         printf("2- Difficulté\n");
@@ -34,10 +36,10 @@ int main() {
         
         switch(choix_Menu){
             case PARTIE:
-                printf("Choisissez un pseudo (maximum 20 caractère): ");
+                printf("Choisissez un pseudo (maximum 20 caractères): ");
                 scanf("%s",joueur.nom);
                 vider_buffer();
-                game(&joueur,1);
+                game(&joueur,difficulté);
                 printf("Souhaitez-vous sauvegarder le score (o/n) : ");
                 do{
                     scanf(" %c",&c);
@@ -55,7 +57,47 @@ int main() {
                 
                 break;
             case OPTION:
-                printf("L'option n'est pas encore implementer\n");
+                menu_option = 1;
+                while(menu_option){
+                    printf("1- Mode normale\n");
+                    printf("2- Mode difficile\n");
+                    printf("3- Quitter\n");
+                    printf("Que souhaitez-vous faire ? (Entrez le chiffre correspondant) :  ");
+                    do{
+                        scanf("%d",&choix_option);
+                        vider_buffer();
+                        if(choix_option<1 || choix_option >3){
+                            printf("Erreur, veuillez choisir un chiffre correspondant au proposition si-dessous\n\n");
+                            printf("1- Mode normale\n");
+                            printf("2- Mode difficile\n");
+                            printf("3- Quitter\n");
+                            printf("Que souhaitez-vous faire ? (Entrez le chiffre correspondant) :  ");
+                        }
+                    }while(choix_option<1 || choix_option >3);
+                    switch(choix_option){
+                        case 1:
+                            if(difficulté){
+                                printf("Le mode normale est déjà activé\n");
+                            }
+                            else{
+                                difficulté = 1;
+                                printf("Le mode normale est activé\n");
+                            }
+                            break;
+                        case 2:
+                            if(difficulté){
+                                difficulté = 0;
+                                printf("Le mode difficile est activé\n");
+                            }
+                            else{
+                                printf("Le mode difficile est déjà activé\n");
+                            }
+                            break;
+                        case 3:
+                            menu_option = 0;
+                            break;
+                    }
+                }
                 break;
             case SCORE:
                 menu_score = 1;
@@ -112,7 +154,7 @@ int main() {
                 }
                 break;
             case QUITTER:
-                printf("Vous avez choisis quitter\n\n");
+                printf("Vous avez choisi quitter\n\n");
                 menu = 0;
                 break;
         }
