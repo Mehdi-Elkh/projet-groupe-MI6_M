@@ -1,2 +1,2 @@
-# projet-groupe-MI6_M
-Dépôt de code collaboratif pour notre projet tetris
+Projet TECH-TRIS
+Ce projet a pour but de recréer le jeu  téris. Dès son lancement vous arriverez sur un menu dans le quel vous pourrez soit jouer directement avec un niveau facile, vous pourrez également choisir la difficulté du niveau, choisir "score" ce qui vous emmenera sur un nouveau menu vous permettant de soit affiche le top 5 des meilleur joueur, ou d'afficher votre meilleure score a l'aide d'une recherche a partir de votre nom d'utilisateur qui vous sera demandé au début de commencer la partie. 
