@@ -14,7 +14,6 @@ Fonctionnalités principales
   main.c:  Point d’entrée du programme
   jeu.c / jeu.h: Fonctions de gestion de la grille et du jeu
   piece.c / piece.h: Fonctions liées aux pièces (rotation, création, etc.)
-  fonction.h: Fonctions utilitaires globales
   piece.txt: Fichier contenant les formes des pièces
   score.txt : Sauvegarde des scores des joueurs
   Makefile:  Pour compiler facilement le projet
