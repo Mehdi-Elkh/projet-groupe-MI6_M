@@ -1,4 +1,6 @@
-#include "fonction.h"
+#include "piece.h"
+#include "score.h"
+#include "jeu.h"
 
 int main() {
     srand(time(NULL)); 

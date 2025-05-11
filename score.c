@@ -1,4 +1,4 @@
-#include "fonction.h"
+#include "score.h"
 
 void Enregistrement_Score(Joueur joueur){
         FILE* fichier = NULL;

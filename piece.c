@@ -1,4 +1,4 @@
-#include "fonction.h"
+#include "piece.h"
 
 void AffichePiece(int n, char tab[NB_PIECE][TAILLE_PIECE][TAILLE_PIECE]) {
     for(int i = 0; i < TAILLE_PIECE; i++) {
