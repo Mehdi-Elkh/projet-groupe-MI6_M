@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <time.h>
 #include <string.h>
+#include <unistd.h>
 #include <math.h>
 
 #define COLONNE 21
