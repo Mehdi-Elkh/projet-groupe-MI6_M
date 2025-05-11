@@ -353,7 +353,7 @@ void game(Joueur* joueur,int difficulte){
         if(jeu_en_cours){
             scoreP += SupprimerLignesPleines(grille); 
         }
-        free(piece_joue);
+        Free_Piece(piece_joue,hauteur);
         tour++;
 
     }
