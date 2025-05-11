@@ -195,7 +195,7 @@ int placement_aleatoire(char** piece_joue,int longueur,int hauteur){
     return colonne_alea;
 }
 
-void game(Joueur* joueur,int difficulté){
+void game(Joueur* joueur,int difficulte){
         // Déclaration de la grille
     char grille[LIGNE][COLONNE];
     GrilleDepart(grille,LIGNE,COLONNE);
@@ -215,7 +215,7 @@ void game(Joueur* joueur,int difficulté){
     int rotation_alea;
     int colonne_alea;
     float diff_temps;
-    if(difficulté){
+    if(difficulte){
         temps_lim = LIM_TEMPS_NORMAL;
         temps_fin = DEBUT_TEMPS_NORMAL;
     }
@@ -340,7 +340,7 @@ void game(Joueur* joueur,int difficulté){
             
         }
         
-        if(difficulté){
+        if(difficulte){
             if(temps_fin>LIM_TEMPS_NORMAL){
                 temps_fin -= 0.2;
             }
