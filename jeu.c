@@ -127,8 +127,7 @@ int PoserPiece(char grille[LIGNE][COLONNE], char** piece, int longueur, int haut
 void DecalerLigneVersBas(char grille[LIGNE][COLONNE], int ligne) {
     // On parcourt les lignes de la grille de la ligne donnée jusqu'à la première ligne (en remontant)
     for (int l = ligne; l > 0; l--) {
-        // On copie chaque case de la ligne du dessus (l-1) dans la ligne courante (l)
-        for (int c = 0; c < COLONNE; c++) {
+         for (int c = 0; c < COLONNE; c++) {
             grille[l][c] = grille[l-1][c];
         }
     }
@@ -136,35 +135,28 @@ void DecalerLigneVersBas(char grille[LIGNE][COLONNE], int ligne) {
     // Une fois toutes les lignes décalées, on vide la première ligne (indice 0)
     for (int c = 0; c < COLONNE; c++) {
         if (c % 2 == 0)
-            grille[0][c] = '|';  // Les colonnes paires contiennent les séparateurs '|'
+            grille[0][c] = '|';  
         else
-            grille[0][c] = ' ';  // Les colonnes impaires sont vides
+            grille[0][c] = ' ';  
     }
 }
 
 // Fonction qui détecte et supprime les lignes pleines dans la grille
 int SupprimerLignesPleines(char grille[LIGNE][COLONNE]) {
     int cpt = 0;
-    // On parcourt les lignes de la grille de bas en haut
     for (int i = LIGNE - 1; i >= 0; i--) {
-        int pleine = 1;  // On suppose que la ligne est pleine au départ
-
-        // Parcourt uniquement les colonnes impaires (les cases de jeu)
+        int pleine = 1;  
         for (int j = 1; j < COLONNE; j += 2) {
-            // Si on trouve une case vide, la ligne n'est pas pleine
             if (grille[i][j] == ' ') {
                 pleine = 0;
-                break;  // On peut arrêter de vérifier cette ligne
+                break;  
             }
         }
 
-        // Si la ligne est pleine
-        if (pleine) {
-            // On décale toutes les lignes au-dessus vers le bas à partir de cette ligne
+        
+        if (pleine) { 
             DecalerLigneVersBas(grille, i);
 
-            // On remonte l'indice i de 1 pour revérifier la même ligne
-            // car elle contient maintenant ce qu'il y avait en i-1
             i++;
             cpt++;
         }
