@@ -24,8 +24,8 @@ Ce projet a pour but de recréer le jeu tétris en C directement dans le termina
   - Rapport-techtris.pdf:  Rapport technique du projet  
 
 
-3) Fonctionnement du jeu:
-Dès le lancement du programme, un menu principal s’affiche vous permettant de :  
+3) Fonctionnement du jeu:  
+Dès le lancement du programme, un menu principal s’affiche vous permettant de :   
   - Jouer directement en mode facile,  
   - Choisir un niveau de difficulté facile ou difficile,  
   Accéder à la section des scores, qui propose deux options :  
